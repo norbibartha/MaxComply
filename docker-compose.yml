@@ -1,0 +1,45 @@
+version: '3'
+services:
+  database:
+    container_name: database
+    image: mysql
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    env_file:
+      - .env
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+      # Where our data will be persisted
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      backend:
+
+  api:
+    container_name: api
+    build:
+      context: ./api
+      dockerfile: .docker/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./api:/var/www/api
+    networks:
+      backend:
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+      - '8080:80'
+    volumes:
+      - ./api:/var/www/api
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      backend:
+
+networks:
+  backend:

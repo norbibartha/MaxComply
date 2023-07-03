@@ -1,0 +1,5 @@
+.env
+mysql
+api/vendor
+api/.phpunit.result.cache
+.idea
