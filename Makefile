@@ -3,6 +3,8 @@ dev:
 	cp .env.dist .env
 	# Build containers and start servers
 	docker compose up -d --build
+	# Copy environmental variables
+	docker compose exec api cp .env.dist .env
 	# Install dependencies for api
 	docker compose exec api composer install
 	# Wait 1 minute before load data so MySQL server finishes the initialization
