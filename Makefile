@@ -13,6 +13,8 @@ dev:
 	docker compose exec api php bin/console doctrine:migrations:migrate
 	# Load some data fixtures
 	docker compose exec api php bin/console doctrine:fixtures:load
+	# Generate jwt SSL keys
+	docker compose exec api php bin/console lexik:jwt:generate-keypair
 
 run-unit-tests:
 	# Run unit tests
